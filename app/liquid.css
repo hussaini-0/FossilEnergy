@@ -384,3 +384,11 @@
 .directory-groups a.directory-child::before { content: ""; position: absolute; left: 6px; top: 0; bottom: 50%; width: 9px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; opacity: .45; }
 .directory-groups a.directory-child:hover { color: var(--accent); }
 a.nav-child { padding-left: 28px !important; opacity: .8; font-size: .95em; }
+
+/* Version switcher floats on every page so both presentations are one click apart. */
+.theme > .switcher,
+.immersive > .switcher,
+.liquid-theme > .switcher { position: fixed; right: 20px; bottom: 20px; z-index: 65; width: max-content; max-width: calc(100% - 40px); margin: 0; }
+@media (max-width: 760px) {
+  .theme > .switcher, .immersive > .switcher, .liquid-theme > .switcher { right: 12px; bottom: 12px; }
+}
