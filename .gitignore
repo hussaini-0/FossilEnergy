@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+*.log
+test-results/
+.playwright-cli/
+output/
+next-env.d.ts
+_backup_before_demo_fixes/
