@@ -5,18 +5,16 @@ import {
   ArrowUpRight,
   BadgeCheck,
   Building2,
-  Droplets,
-  Flame,
-  Fuel,
-  Warehouse,
   Mail,
   MapPin,
   Navigation,
   Phone,
-  ShieldCheck,
   X,
 } from "lucide-react";
 import PanelDeck, { type Panel } from "./PanelDeck";
+import { DESIGNS, LINE_ICONS, OgraBadge, designHref, type Design } from "./shared";
+import { HomeB, HomeC, HomeD } from "./Homes";
+import { PriceTicker } from "./shared";
 import FuelAdvisor from "./FuelAdvisor";
 import StationMap, { type MapPoint } from "@/components/StationMap";
 import MobileMenu from "@/components/MobileMenu";
@@ -39,25 +37,9 @@ const NAV: [string, string][] = [
   ["Contact", "#contact"],
 ];
 
-const fmtTime = (iso: string) =>
-  new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-
-function OgraBadge() {
-  const { ogra } = useDemoData();
-  return (
-    <span className="gp-ogra">
-      <ShieldCheck size={14} /> Synced from OGRA submission · {ogra.ref} · {fmtTime(ogra.submittedAt)}
-    </span>
-  );
-}
-
 /* ── 1. Home ── */
-const LINE_ICONS = { fuel: Fuel, storage: Warehouse, lubricants: Droplets, lpg: Flame } as const;
 
-function Home() {
-  const { prices } = useDemoData();
-  const [region, setRegion] = useState<Region>("Punjab");
-  const p = prices[region];
+function HomeA() {
   return (
     <div className="gp-home">
       <div className="gp-home-bg">
@@ -79,25 +61,7 @@ function Home() {
             </a>
           </div>
         </div>
-        <aside className="gp-ticker" aria-label="Today's fuel prices">
-          <div className="gp-ticker-head">
-            <span>Today&apos;s prices</span>
-            <select aria-label="Region" value={region} onChange={(e) => setRegion(e.target.value as Region)}>
-              {REGIONS.map((r) => (
-                <option key={r}>{r}</option>
-              ))}
-            </select>
-          </div>
-          <div className="gp-ticker-row">
-            <small>PMG · Petrol</small>
-            <strong>{formatPrice(p.pmg)}</strong>
-          </div>
-          <div className="gp-ticker-row">
-            <small>HSD · Diesel</small>
-            <strong>{formatPrice(p.hsd)}</strong>
-          </div>
-          <OgraBadge />
-        </aside>
+        <PriceTicker />
       </div>
       <ul className="gp-wrap gp-lines" aria-label="What we do">
         {businessLines.map((l) => {
@@ -405,14 +369,40 @@ function Header() {
   );
 }
 
-export default function GroupSite() {
+type Tone = "dark" | "light";
+/** Panel tones per design: home, companies, fuel finder, prices, stations, contact. */
+const TONES: Record<Design, Tone[]> = {
+  a: ["dark", "light", "light", "dark", "light", "dark"],
+  b: ["light", "light", "light", "light", "light", "light"],
+  c: ["dark", "light", "dark", "light", "light", "dark"],
+  d: ["dark", "dark", "light", "dark", "light", "dark"],
+};
+const HOMES = { a: HomeA, b: HomeB, c: HomeC, d: HomeD };
+
+function DesignSwitcher({ design }: { design: Design }) {
+  return (
+    <nav className="gp-designs" aria-label="Design variants">
+      <span>Design</span>
+      {DESIGNS.map((d) => (
+        <a key={d.id} href={designHref(d.id)} aria-current={d.id === design ? "page" : undefined} title={d.name}>
+          {d.id.toUpperCase()}
+          <small>{d.name}</small>
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+export default function GroupSite({ design = "a" }: { design?: Design }) {
+  const t = TONES[design];
+  const Home = HOMES[design];
   const panels: Panel[] = [
-    { id: "home", label: "Home", content: <Home /> },
-    { id: "companies", label: "Companies", content: <Companies />, tone: "light" },
+    { id: "home", label: "Home", content: <Home />, tone: t[0] },
+    { id: "companies", label: "Companies", content: <Companies />, tone: t[1] },
     {
       id: "fuel-finder",
       label: "Fuel finder",
-      tone: "light",
+      tone: t[2],
       content: (
         <div className="gp-wrap gp-finder">
           <div className="gp-head">
@@ -426,13 +416,14 @@ export default function GroupSite() {
         </div>
       ),
     },
-    { id: "prices", label: "Prices", content: <Prices /> },
-    { id: "stations", label: "Stations", content: <Stations />, tone: "light" },
-    { id: "contact", label: "Contact", content: <Contact /> },
+    { id: "prices", label: "Prices", content: <Prices />, tone: t[3] },
+    { id: "stations", label: "Stations", content: <Stations />, tone: t[4] },
+    { id: "contact", label: "Contact", content: <Contact />, tone: t[5] },
   ];
   return (
     <>
-      <PanelDeck panels={panels} header={<Header />} />
+      <PanelDeck panels={panels} header={<Header />} className={`design-${design}`} />
+      <DesignSwitcher design={design} />
       <ChatWidget />
     </>
   );

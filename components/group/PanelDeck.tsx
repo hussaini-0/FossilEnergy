@@ -24,7 +24,7 @@ function canScroll(target: EventTarget | null, dir: 1 | -1) {
  * Full-screen panel navigation: one section per screen, no page scroll.
  * Moves with the wheel/trackpad, swipe, keyboard, the side dots or `#panel` links.
  */
-export default function PanelDeck({ panels, header }: { panels: Panel[]; header: ReactNode }) {
+export default function PanelDeck({ panels, header, className = "" }: { panels: Panel[]; header: ReactNode; className?: string }) {
   const [index, setIndex] = useState(0);
   const locked = useRef(false);
   const touch = useRef<{ y: number; target: EventTarget | null } | null>(null);
@@ -112,7 +112,7 @@ export default function PanelDeck({ panels, header }: { panels: Panel[]; header:
   const tone = panels[index].tone ?? "dark";
 
   return (
-    <div className={`gp-deck tone-${tone}`}>
+    <div className={`gp-deck tone-${tone} ${className}`}>
       {header}
       <div className="gp-track" style={{ transform: `translate3d(0, ${-index * 100}%, 0)` }}>
         {panels.map((p, i) => (
