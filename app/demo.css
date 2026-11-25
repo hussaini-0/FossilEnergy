@@ -5,9 +5,15 @@
 .switcher > div { align-items: center; }
 .switcher .switcher-admin { display: inline-flex; align-items: center; gap: 6px; margin-left: 4px; border-left: 1px solid #e4e4e8; border-radius: 0 8px 8px 0; color: #5b5e66; }
 .switcher .switcher-admin:hover { color: #c8101a; }
-/* Phones: the version switch lives inside the menu sheet instead, so nothing covers page content. */
+/* Phones: a compact pill bottom-left (chat button is bottom-right); heroes get room so it never covers their buttons. */
 @media (max-width: 760px) {
-  .theme > .switcher, .immersive > .switcher, .liquid-theme > .switcher { display: none; }
+  .theme > .switcher, .immersive > .switcher, .liquid-theme > .switcher { right: auto; left: 12px; bottom: 14px; max-width: calc(100% - 90px); padding: 4px; border-radius: 999px; }
+  .switcher > span { display: none; }
+  .switcher > div { gap: 2px; }
+  .switcher a { padding: 9px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
+  .switcher .switcher-admin { display: none; }
+  .lp-hero { padding-bottom: 96px; }
+  .immersive-hero .hero-bottom { bottom: 76px; }
 }
 
 /* ── Mobile menu (shared by both versions and detail pages) ── */
