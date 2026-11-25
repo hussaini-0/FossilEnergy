@@ -3,11 +3,12 @@ import { useEffect, useRef } from "react";
 import { animate, stagger } from "animejs";
 import { ArrowRight } from "lucide-react";
 import { businessLines, group } from "@/data/groupContent";
-import { HeroWave, PriceTicker } from "../shared";
+import { PriceTicker } from "../shared";
+import OilFlow from "./OilFlow";
 
 const HEADLINE = ["Fuel,", "lubricants", "&", "LPG"];
 
-/** Design E home: Version 1's Traffic Wave, a calm word-by-word headline, prices, and the business lines. */
+/** Design E home: flowing-oil 3D background, a calm word-by-word headline, prices, and the business lines. */
 export default function HomeE() {
   const root = useRef<HTMLDivElement>(null);
 
@@ -20,7 +21,7 @@ export default function HomeE() {
 
   return (
     <div className="gp-home gp-home-e" ref={root}>
-      <HeroWave className="gp-wave ig-wave" />
+      <OilFlow className="gp-wave ig-wave" />
       <div className="gp-wrap ig-hero">
         <div className="ig-copy">
           <p className="gp-eyebrow ig-reveal">Fossil Group · Pakistan</p>

@@ -23,6 +23,7 @@ import { HeroWave, OgraBadge, fmtTime } from "./shared";
 import StationMap, { type MapPoint } from "@/components/StationMap";
 import ChatWidget from "@/components/ChatWidget";
 import IgnitionFX, { IgnitionFonts } from "./ignition/IgnitionFX";
+import OilFlow from "./ignition/OilFlow";
 import { companies, group } from "@/data/groupContent";
 import { DESIGNS, SECTIONS, designHref, sectionHref, type Design, type Section } from "@/data/designs";
 import {
@@ -431,7 +432,7 @@ export default function GroupPage({ design, section }: { design: Design; section
   return (
     <div className={`gpg design-${design}`}>
       <div className="gpg-top tone-dark">
-        <HeroWave />
+        {design === "e" ? <OilFlow /> : <HeroWave />}
         <GroupHeader design={design} current={section} />
         <div className="gp-wrap gpg-intro">
           <p className="gp-eyebrow">{intro.eyebrow}</p>
