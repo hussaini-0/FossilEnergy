@@ -18,14 +18,22 @@ export type GroupCompany = {
 
 export const group = {
   name: "Fossil Group",
-  headline: "Energy, end to end.",
+  headline: "Fuel, lubricants & LPG for Pakistan.",
   intro:
-    "From fuel stations and bulk storage to lubricants and LPG, the Fossil Group companies keep Pakistan moving.",
+    "Fossil Group runs fuel stations and bulk oil storage, supplies Clover lubricants, and delivers LPG to homes and businesses through Quick Gases.",
   phone: "+92 111-367-745",
   phoneHref: "tel:+92111367745",
   email: "info@fossilpk.com",
   address: "23-B, Lalazar, Off M.T. Khan Road, Karachi",
 };
+
+/** The group's business lines, shown on the first screen so visitors know at a glance what the group does. */
+export const businessLines = [
+  { id: "fuel", title: "Fuel stations", text: "Petrol & diesel across Pakistan", company: "Fossil Energy", href: "#stations" },
+  { id: "storage", title: "Oil storage", text: "Bulk terminals at Mehmoodkot & Gatti", company: "Fossil Energy", href: "#stations" },
+  { id: "lubricants", title: "Lubricants", text: "Engine & industrial oils", company: "Clover Pakistan", href: "#fuel-finder" },
+  { id: "lpg", title: "LPG", text: "Cylinders & bulk gas supply", company: "Quick Gases", href: "#companies" },
+] as const;
 
 export const companies: GroupCompany[] = [
   {

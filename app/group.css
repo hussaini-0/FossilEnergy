@@ -329,3 +329,32 @@
   .gp-ogra { white-space: normal; line-height: 1.35; font-size: 11px; }
   .gp-price-main { min-width: 0; }
 }
+
+/* Home: say what the group does on the first screen */
+.gp-home h1 { font-size: clamp(44px, 6.4vw, 92px); line-height: 0.98; max-width: 14ch; }
+.gp-home h1 em { display: block; }
+.gp-lede { max-width: 560px; color: #d5d8de; }
+.gp-lines { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: clamp(24px, 5vh, 52px); padding: 0; list-style: none; position: relative; z-index: 1; }
+.gp-lines a { display: flex; align-items: flex-start; gap: 12px; height: 100%; padding: 16px; border: 1px solid #ffffff1f; border-radius: 16px; background: #ffffff0d; backdrop-filter: blur(10px); transition: border-color .2s, background .2s, transform .2s; }
+.gp-lines a:hover { border-color: #e11b2299; background: #e11b221a; transform: translateY(-2px); }
+.gp-line-icon { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--gp-red); color: #fff; }
+.gp-line-text { display: grid; gap: 2px; min-width: 0; }
+.gp-line-text strong { font-size: 16px; letter-spacing: -0.01em; }
+.gp-line-text small { color: #c3c6ce; font-size: 13px; line-height: 1.35; }
+.gp-line-text i { margin-top: 4px; color: var(--gp-red-2); font: 600 10.5px "JetBrains Mono", Consolas, monospace; font-style: normal; letter-spacing: .06em; text-transform: uppercase; }
+@media (max-width: 1100px) { .gp-lines { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) {
+  .gp-home h1 { font-size: clamp(36px, 10.5vw, 46px); }
+  .gp-home h1 em { display: inline; }
+  .gp-lede { margin: 12px 0 16px; font-size: 14px; }
+  .gp-lines { order: 2; gap: 8px; margin-top: 16px; }
+  .gp-lines a { gap: 9px; padding: 11px; border-radius: 13px; }
+  .gp-line-icon { width: 32px; height: 32px; border-radius: 9px; }
+  .gp-line-icon svg { width: 16px; height: 16px; }
+  .gp-line-text strong { font-size: 14px; }
+  .gp-line-text small { font-size: 11.5px; }
+  .gp-line-text i { font-size: 9.5px; }
+  .gp-home .gp-ticker { display: none; }
+  .gp-home .gp-actions .gp-btn.ghost { display: none; }
+}
+@media (min-width: 761px) { .gp-home h1 { max-width: none; font-size: clamp(40px, 5.3vw, 80px); } }

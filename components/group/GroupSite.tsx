@@ -5,6 +5,10 @@ import {
   ArrowUpRight,
   BadgeCheck,
   Building2,
+  Droplets,
+  Flame,
+  Fuel,
+  Warehouse,
   Mail,
   MapPin,
   Navigation,
@@ -17,7 +21,7 @@ import FuelAdvisor from "./FuelAdvisor";
 import StationMap, { type MapPoint } from "@/components/StationMap";
 import MobileMenu from "@/components/MobileMenu";
 import ChatWidget from "@/components/ChatWidget";
-import { companies, group, type GroupCompany } from "@/data/groupContent";
+import { businessLines, companies, group, type GroupCompany } from "@/data/groupContent";
 import {
   REGIONS,
   TERMINAL_STATUS,
@@ -48,6 +52,8 @@ function OgraBadge() {
 }
 
 /* ── 1. Home ── */
+const LINE_ICONS = { fuel: Fuel, storage: Warehouse, lubricants: Droplets, lpg: Flame } as const;
+
 function Home() {
   const { prices } = useDemoData();
   const [region, setRegion] = useState<Region>("Punjab");
@@ -59,11 +65,9 @@ function Home() {
       </div>
       <div className="gp-wrap gp-home-grid">
         <div className="gp-home-copy">
-          <p className="gp-eyebrow">FOSSIL GROUP · PAKISTAN</p>
+          <p className="gp-eyebrow">FOSSIL GROUP · OIL & GAS · PAKISTAN</p>
           <h1>
-            Energy,
-            <br />
-            <em>end to end.</em>
+            Fuel, lubricants &amp; LPG <em>for Pakistan.</em>
           </h1>
           <p className="gp-lede">{group.intro}</p>
           <div className="gp-actions">
@@ -95,17 +99,25 @@ function Home() {
           <OgraBadge />
         </aside>
       </div>
-      <div className="gp-wrap gp-home-companies">
-        {companies.map((c) => (
-          <a key={c.id} href="#companies">
-            <b>{c.short}</b>
-            <span>
-              {c.name}
-              <small>{c.sector}</small>
-            </span>
-          </a>
-        ))}
-      </div>
+      <ul className="gp-wrap gp-lines" aria-label="What we do">
+        {businessLines.map((l) => {
+          const Icon = LINE_ICONS[l.id];
+          return (
+            <li key={l.id}>
+              <a href={l.href}>
+                <span className="gp-line-icon">
+                  <Icon size={20} />
+                </span>
+                <span className="gp-line-text">
+                  <strong>{l.title}</strong>
+                  <small>{l.text}</small>
+                  <i>{l.company}</i>
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
