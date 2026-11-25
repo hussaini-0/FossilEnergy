@@ -1,0 +1,199 @@
+/* Fossil Group section pages (/companies, /fuel-finder, /prices, /stations, /contact and /group/<design>/<section>). */
+
+/* Base tokens at zero specificity so each design's overrides (.design-b …) still win. */
+:where(.gpg) {
+  --gp-red: #e11b22;
+  --gp-red-2: #ff4a50;
+  --gp-dark: #0c0d11;
+  --gp-light: #f5f5f2;
+  --gp-ink: #15161a;
+  --gp-muted-dark: #a4a8b2;
+  --gp-muted-light: #62666f;
+  --gp-header: 76px;
+}
+.gpg { min-height: 100vh; background: var(--gp-light); color: var(--gp-ink); font-family: "Inter", "Segoe UI", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+.gpg button { font: inherit; border: 0; background: none; color: inherit; }
+.gpg h1, .gpg h2, .gpg h3 { margin: 0; font-weight: 600; letter-spacing: -0.03em; }
+.gpg em { font-style: normal; color: var(--gp-red); }
+.gpg .tone-dark em { color: var(--gp-red-2); }
+.gpg p { margin: 0; }
+
+/* Title band: Version 1's Traffic Wave behind the header and page title */
+.gpg-top { position: relative; overflow: hidden; padding: calc(var(--gp-header) + clamp(28px, 6vh, 64px)) 0 clamp(32px, 6vh, 64px); background: var(--gp-dark); color: #fff; }
+.gpg-top > .gp-wave { z-index: 0; }
+.gpg-top::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, #05070ce6 0%, #05070cb3 40%, #05070c40 100%), linear-gradient(0deg, #05070cd9 0%, transparent 60%); pointer-events: none; }
+.gpg-top .gp-header { z-index: 5; color: #fff; }
+.gpg-top .gp-logo img { filter: brightness(0) invert(1); }
+.gpg-intro { position: relative; z-index: 2; }
+.gpg-intro .gp-eyebrow { margin-bottom: 12px; }
+.gpg-intro h1 { max-width: 16ch; font-size: clamp(36px, 5vw, 68px); line-height: 1; }
+.gpg-sub { max-width: 560px; margin-top: 14px !important; color: #c8cbd3; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.55; }
+.gp-header nav a[aria-current="page"] { opacity: 1; box-shadow: inset 0 -2px 0 var(--gp-red); padding-bottom: 4px; }
+
+.gpg-main { padding: clamp(28px, 5vh, 56px) 0 clamp(48px, 8vh, 90px); }
+.gpg-main .gp-wrap { display: grid; gap: clamp(24px, 4vh, 40px); }
+.gpg-note { color: var(--gp-muted-light); font-size: 13px; }
+.gpg-note a { color: var(--gp-red); font-weight: 600; }
+.gpg h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 18px; letter-spacing: -0.01em; }
+.gpg h3 svg { color: var(--gp-red); }
+.gpg-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.gpg-card { display: grid; gap: 4px; align-content: start; padding: 18px; border: 1px solid #e4e4df; border-radius: 16px; background: #fff; }
+.gpg-card strong { font-size: 17px; }
+.gpg-card em { font: 600 11.5px "JetBrains Mono", Consolas, monospace; }
+.gpg-card p { color: var(--gp-muted-light); font-size: 13.5px; line-height: 1.5; }
+
+/* Companies */
+.gpg-companies { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 20px; align-items: start; }
+.gpg-company-list { display: grid; gap: 8px; }
+.gpg-company-list button { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid #e4e4df !important; border-radius: 14px; background: #fff !important; text-align: left; transition: border-color .2s, box-shadow .2s; }
+.gpg-company-list button > svg { margin-left: auto; color: #b4b6bc; }
+.gpg-company-list b { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: #f0f0ec; font-size: 12px; }
+.gpg-company-list span { display: grid; font-weight: 600; }
+.gpg-company-list small { color: var(--gp-muted-light); font-size: 12px; font-weight: 400; }
+.gpg-company-list button[aria-selected="true"] { border-color: var(--gp-red) !important; box-shadow: 0 8px 24px #0000000f; }
+.gpg-company-list button[aria-selected="true"] b { background: var(--gp-red); color: #fff; }
+.gpg-company-list button[aria-selected="true"] > svg { color: var(--gp-red); }
+.gpg-company { display: grid; grid-template-columns: 0.9fr 1.1fr; overflow: hidden; border-radius: 22px; background: #fff; box-shadow: 0 1px 2px #0000000d, 0 14px 40px #0000000d; }
+.gpg-company-media { display: grid; place-items: center; min-height: 340px; background: linear-gradient(135deg, #1d1f26, #3a0b0e); }
+.gpg-company-media img { width: 100%; height: 100%; object-fit: cover; }
+.gpg-company-media b { color: #ffffffd9; font-size: 64px; }
+.gpg-company.pending .gpg-company-media { background: repeating-linear-gradient(135deg, #e9e9e6 0 12px, #f1f1ee 12px 24px); }
+.gpg-company.pending .gpg-company-media b { color: #9a9ca3; }
+.gpg-company-body { display: grid; align-content: center; gap: 12px; padding: clamp(22px, 3vw, 38px); }
+.gpg-company-body .gp-eyebrow { margin: 0; color: var(--gp-red); }
+.gpg-company-body h2 { font-size: clamp(28px, 3vw, 38px); }
+.gpg-lead { font-size: 17px; font-weight: 600; }
+.gpg-company-body p { color: var(--gp-muted-light); line-height: 1.6; }
+.gpg-company-body ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
+.gpg-company-body li { display: flex; align-items: center; gap: 8px; }
+.gpg-company-body li svg { color: var(--gp-red); }
+.gpg .gp-btn.ghost { border: 1px solid #d4d6db; background: #fff; color: var(--gp-ink); }
+
+/* Fuel finder extras */
+.gpg-catalog { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.gpg-catalog .gpg-cards { grid-template-columns: 1fr; }
+
+/* Prices */
+.gpg-prices { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: start; }
+.gpg-prices > div { display: grid; gap: 16px; justify-items: start; }
+.gpg-tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid #dcdcd6; border-radius: 14px; background: #fff; }
+.gpg-tabs button { padding: 9px 14px; border-radius: 10px; color: var(--gp-muted-light); font-size: 13.5px; font-weight: 600; }
+.gpg-tabs button[aria-selected="true"] { background: var(--gp-ink); color: #fff; }
+.gpg-price-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; }
+.gpg-price-cards > div { display: grid; gap: 6px; padding: 22px; border: 1px solid #e4e4df; border-radius: 20px; background: #fff; }
+.gpg-price-cards small, .gpg-price-cards i { color: var(--gp-muted-light); font-size: 12.5px; font-style: normal; }
+.gpg-price-cards strong { font: 600 clamp(32px, 4vw, 52px) "JetBrains Mono", Consolas, monospace; letter-spacing: -0.04em; }
+.gpg-price-cards strong span { color: var(--gp-muted-light); font-size: .4em; letter-spacing: 0; }
+.gpg .gp-ogra { background: #e5f6ec; color: #13723c; }
+.gpg-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.gpg-table caption { padding-bottom: 10px; color: var(--gp-muted-light); font-size: 12px; text-align: left; }
+.gpg-table thead, .gpg-table tbody tr, .gpg-table tbody tr:nth-child(even) { background: none; }
+.gpg-table th { padding: 10px 12px; border-bottom: 1px solid #d6d6d0; color: var(--gp-muted-light); font-size: 11px; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
+.gpg-table td { padding: 13px 12px; border-bottom: 1px solid #e6e6e1; font-family: "JetBrains Mono", Consolas, monospace; cursor: pointer; }
+.gpg-table td:first-child { font-family: inherit; font-weight: 600; }
+.gpg-table tr.is-current td { background: #fdecec; }
+.gpg-steps ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 12px; padding: 0; list-style: none; }
+.gpg-steps li { display: grid; gap: 6px; padding: 18px; border: 1px solid #e4e4df; border-radius: 16px; background: #fff; }
+.gpg-steps li b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--gp-red); color: #fff; font-size: 13px; }
+.gpg-steps li span { color: var(--gp-muted-light); font-size: 13.5px; line-height: 1.5; }
+.gpg-steps code { font: 600 12px "JetBrains Mono", Consolas, monospace; color: #13723c; }
+
+/* Stations */
+.gpg-stations { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 16px; height: min(68vh, 640px); min-height: 460px; }
+.gpg-station-side { display: flex; flex-direction: column; min-height: 0; padding: 16px; border: 1px solid #e4e4df; border-radius: 20px; background: #fff; }
+.gpg-filters { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.gpg-search { display: flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid #dcdee3; border-radius: 10px; color: var(--gp-muted-light); }
+.gpg-search input { flex: 1; min-width: 0; height: 40px; border: 0; outline: 0; background: none; font: inherit; color: var(--gp-ink); }
+.gpg-filters select { height: 42px; padding: 0 8px; border: 1px solid #dcdee3; border-radius: 10px; background: #fff; font: inherit; font-size: 13px; }
+.gpg-count { margin: 12px 0 6px !important; color: var(--gp-muted-light); font-size: 12px; }
+.gpg-station-list { flex: 1; min-height: 0; overflow-y: auto; }
+.gpg-station-list article { display: grid; gap: 6px; padding: 12px 6px; border-bottom: 1px solid #eeeeea; border-radius: 10px; }
+.gpg-station-list article.is-selected { background: #fdecec; }
+.gpg-station-list button { display: flex; gap: 10px; text-align: left; }
+.gpg-station-list button > svg { flex: none; margin-top: 2px; color: var(--gp-red); }
+.gpg-station-list span { display: grid; gap: 2px; }
+.gpg-station-list strong { font-size: 15px; }
+.gpg-station-list strong em { margin-left: 8px; padding: 2px 7px; border-radius: 999px; background: #fff2dc; color: #8a5a00; font-size: 10.5px; font-weight: 600; }
+.gpg-station-list small { color: var(--gp-muted-light); font-size: 12.5px; }
+.gpg-station-list a { display: inline-flex; align-items: center; gap: 6px; margin-left: 28px; color: var(--gp-red); font-size: 12.5px; font-weight: 700; }
+.gpg-map { position: relative !important; height: 100%; border-radius: 20px; overflow: hidden; border: 1px solid #e4e4df; background: #e8e8ea; }
+.gpg-map .leaflet-control-attribution { font-size: 10px; }
+.gpg-map .leaflet-control-attribution svg { display: inline; width: auto; height: auto; }
+.gpg-status { justify-self: start; padding: 2px 8px; border-radius: 999px; font-family: inherit !important; }
+.gpg-status.operational { background: #e5f6ec; color: #13723c; }
+.gpg-status.development { background: #fff2dc; color: #8a5a00; }
+.gpg-status.equity { background: #e8eefc; color: #2b4fa8; }
+.gpg-status.to-confirm { background: #eef0f3; color: #5b606b; }
+
+/* Contact */
+.gpg-contact { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 20px; align-items: start; }
+.gpg-channels { display: grid; gap: 12px; }
+.gpg-channels > * { display: grid; gap: 4px; padding: 20px; border: 1px solid #e4e4df; border-radius: 18px; background: #fff; font-size: 16px; font-weight: 600; }
+.gpg-channels > a:hover { border-color: var(--gp-red); }
+.gpg-channels svg { margin-bottom: 6px; color: var(--gp-red); }
+.gpg-channels small { color: var(--gp-muted-light); font-size: 12px; font-weight: 500; }
+.gpg-form { display: grid; gap: 14px; padding: clamp(20px, 3vw, 32px); border-radius: 22px; background: #fff; box-shadow: 0 1px 2px #0000000d, 0 14px 40px #0000000d; }
+.gpg-form h3 { margin: 0; }
+.gpg-form label { display: grid; gap: 6px; color: #3a3d45; font-size: 12.5px; font-weight: 600; }
+.gpg-form input, .gpg-form select, .gpg-form textarea { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #dcdee3; border-radius: 12px; background: #fff; color: var(--gp-ink); font: inherit; font-size: 15px; font-weight: 400; resize: vertical; }
+.gpg-form input:focus, .gpg-form select:focus, .gpg-form textarea:focus { outline: 0; border-color: var(--gp-red); box-shadow: 0 0 0 3px #e11b2222; }
+.gpg-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gpg-form .gp-btn { justify-self: start; }
+.gpg-sent { display: grid; justify-items: start; gap: 10px; padding: 20px 0; }
+.gpg-sent > span { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #e5f6ec; color: #13723c; }
+.gpg-sent strong { font-size: 20px; }
+.gpg-sent p { color: var(--gp-muted-light); }
+
+/* Footer */
+.gpg-foot { padding: 28px 0 90px; border-top: 1px solid #e2e2dd; background: var(--gp-light); color: var(--gp-muted-light); font-size: 13px; }
+.gpg-foot .gp-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.gpg-foot .gp-logo { color: var(--gp-ink); }
+.gpg-foot nav { display: flex; flex-wrap: wrap; gap: 18px; }
+.gpg-foot nav a:hover { color: var(--gp-ink); }
+
+/* Design accents on the pages */
+.gpg.design-b .gpg-intro h1, .gpg.design-b h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
+.gpg.design-c .gpg-top::after { background: linear-gradient(90deg, #d7141c 0%, #d7141cf0 40%, #d7141c99 75%, #d7141c40 100%); }
+.gpg.design-c .gpg-top .gp-eyebrow, .gpg.design-c .gpg-sub { color: #fff; }
+.gpg.design-c .gpg-top em { color: #fff; opacity: .8; }
+.gpg.design-c .gpg-intro h1 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; }
+.gpg.design-d .gpg-table tr.is-current td, .gpg.design-d .gpg-station-list article.is-selected { background: #1f9d551f; }
+
+@media (max-width: 1100px) {
+  .gpg-companies, .gpg-prices, .gpg-contact { grid-template-columns: 1fr; }
+  .gpg-company-list { grid-template-columns: repeat(2, 1fr); }
+  .gpg-stations { grid-template-columns: 1fr; height: auto; }
+  .gpg-station-side { max-height: 360px; }
+  .gpg-map { height: 420px; }
+}
+@media (max-width: 760px) {
+  .gpg { --gp-header: 64px; }
+  .gpg-top { padding: calc(var(--gp-header) + 22px) 0 28px; }
+  .gpg-intro h1 { font-size: clamp(30px, 9vw, 40px); }
+  .gpg-company-list button { padding: 10px; gap: 8px; }
+  .gpg-company-list b { width: 32px; height: 32px; }
+  .gpg-company-list button > svg { display: none; }
+  .gpg-company { grid-template-columns: 1fr; }
+  .gpg-company-media { min-height: 170px; max-height: 200px; }
+  .gpg-catalog, .gpg-steps ol { grid-template-columns: 1fr; }
+  .gpg-price-cards > div { padding: 14px; }
+  .gpg-price-cards strong { font-size: 26px; }
+  .gpg-form-row { grid-template-columns: 1fr; }
+  .gpg-map { height: 340px; }
+  .gpg-foot { padding-bottom: 100px; }
+}
+.gp-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; color: var(--gp-red-2); font-size: 13.5px; font-weight: 700; }
+.tone-light .gp-more, .gp-station-card .gp-more { color: var(--gp-red); }
+.gp-more:hover { gap: 9px; }
+.gp-station-card .gp-more { margin-top: 0; }
+.gpg-foot .gp-logo img { filter: none; }
+.gpg .gp-btn { background: var(--gp-red); color: #fff; }
+.gpg .gp-btn:hover { background: #c8141b; }
+.gpg.design-d .gp-btn:hover { background: #18834a; }
+.gpg .gp-btn.ghost { border: 1px solid #d4d6db; background: #fff; color: var(--gp-ink); }
+@media (max-width: 1100px) { .gpg-companies, .gpg-prices, .gpg-contact, .gpg-stations { grid-template-columns: minmax(0, 1fr); } .gpg-company-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .gpg-filters { grid-template-columns: minmax(0, 1fr) auto; } .gpg-price-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gpg-tabs { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; } .gpg-tabs button { flex: none; } .gpg-table { font-size: 13px; } }
+.gpg-prices > * { min-width: 0; }
+.gpg-table { table-layout: fixed; }
+.gpg-table caption { white-space: normal; }
+@media (max-width: 760px) { .gpg-prices > div { justify-items: stretch; } .gpg-table td, .gpg-table th { padding: 10px 8px; } }

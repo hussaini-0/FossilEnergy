@@ -12,12 +12,13 @@ import {
   X,
 } from "lucide-react";
 import PanelDeck, { type Panel } from "./PanelDeck";
+import GroupHeader from "./GroupHeader";
+import { sectionHref } from "@/data/designs";
 import { DESIGNS, LINE_ICONS, OgraBadge, designHref, type Design } from "./shared";
 import { HomeB, HomeC, HomeD } from "./Homes";
 import { HeroWave, PriceTicker } from "./shared";
 import FuelAdvisor from "./FuelAdvisor";
 import StationMap, { type MapPoint } from "@/components/StationMap";
-import MobileMenu from "@/components/MobileMenu";
 import ChatWidget from "@/components/ChatWidget";
 import { businessLines, companies, group, type GroupCompany } from "@/data/groupContent";
 import {
@@ -29,13 +30,6 @@ import {
   type Region,
 } from "@/lib/demoStore";
 
-const NAV: [string, string][] = [
-  ["Companies", "#companies"],
-  ["Fuel finder", "#fuel-finder"],
-  ["Prices", "#prices"],
-  ["Stations", "#stations"],
-  ["Contact", "#contact"],
-];
 
 /* ── 1. Home ── */
 
@@ -136,7 +130,7 @@ function CompanyModal({ company, onClose }: { company: GroupCompany; onClose: ()
   );
 }
 
-function Companies() {
+function Companies({ more }: { more: string }) {
   const [open, setOpen] = useState<GroupCompany | null>(null);
   return (
     <div className="gp-wrap gp-companies">
@@ -145,6 +139,9 @@ function Companies() {
         <h2>
           Four companies. <em>One energy partner.</em>
         </h2>
+          <a className="gp-more" href={more}>
+            All company details <ArrowRight size={15} />
+          </a>
       </div>
       <div className="gp-company-grid">
         {companies.map((c) => (
@@ -169,7 +166,7 @@ function Companies() {
 }
 
 /* ── 4. Prices ── */
-function Prices() {
+function Prices({ more }: { more: string }) {
   const { prices, pricesUpdated } = useDemoData();
   const [region, setRegion] = useState<Region>("Punjab");
   const p = prices[region];
@@ -183,6 +180,9 @@ function Prices() {
         <p className="gp-sub">
           When Fossil submits its prices to OGRA, this page updates automatically. No manual re-entry.
         </p>
+          <a className="gp-more" href={more}>
+            Full price page <ArrowRight size={15} />
+          </a>
       </div>
       <div className="gp-price-layout">
         <div className="gp-price-main">
@@ -236,7 +236,7 @@ function Prices() {
 }
 
 /* ── 5. Stations ── */
-function Stations() {
+function Stations({ more }: { more: string }) {
   const { stations, terminals } = useDemoData();
   const [selected, setSelected] = useState("");
   const [region, setRegion] = useState("All");
@@ -260,6 +260,9 @@ function Stations() {
       <div className="gp-station-card">
         <p className="gp-eyebrow">STATIONS & TERMINALS</p>
         <h2>Find us on the map.</h2>
+        <a className="gp-more" href={more}>
+          Open station finder <ArrowRight size={15} />
+        </a>
         <select aria-label="Region" value={region} onChange={(e) => setRegion(e.target.value)}>
           <option value="All">All regions</option>
           {REGIONS.map((r) => (
@@ -295,7 +298,7 @@ function Stations() {
 }
 
 /* ── 6. Contact ── */
-function Contact() {
+function Contact({ more }: { more: string }) {
   return (
     <div className="gp-wrap gp-contact">
       <div className="gp-head">
@@ -303,6 +306,9 @@ function Contact() {
         <h2>
           Let&apos;s power <em>what&apos;s next.</em>
         </h2>
+          <a className="gp-more" href={more}>
+            Send us a message <ArrowRight size={15} />
+          </a>
       </div>
       <div className="gp-contact-grid">
         <a href={group.phoneHref}>
@@ -344,30 +350,6 @@ function Contact() {
   );
 }
 
-function Header() {
-  return (
-    <header className="gp-header">
-      <a href="#home" className="gp-logo" aria-label="Fossil Group home">
-        <img src="/images/fossil-logo.png" alt="Fossil" width={118} height={38} />
-        <span>GROUP</span>
-      </a>
-      <nav aria-label="Main navigation">
-        {NAV.map(([label, href]) => (
-          <a key={href} href={href}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <a className="gp-header-cta" href="#fuel-finder">
-        Fuel finder
-      </a>
-      <MobileMenu
-        links={[["Home", "#home"], ...NAV]}
-        cta={{ label: "Find the right fuel", href: "#fuel-finder" }}
-      />
-    </header>
-  );
-}
 
 type Tone = "dark" | "light";
 /** Panel tones per design: home, companies, fuel finder, prices, stations, contact. */
@@ -398,7 +380,7 @@ export default function GroupSite({ design = "a" }: { design?: Design }) {
   const Home = HOMES[design];
   const panels: Panel[] = [
     { id: "home", label: "Home", content: <Home />, tone: t[0] },
-    { id: "companies", label: "Companies", content: <Companies />, tone: t[1] },
+    { id: "companies", label: "Companies", content: <Companies more={sectionHref(design, "companies")} />, tone: t[1] },
     {
       id: "fuel-finder",
       label: "Fuel finder",
@@ -411,18 +393,21 @@ export default function GroupSite({ design = "a" }: { design?: Design }) {
               The right fuel <em>for your car.</em>
             </h2>
             <p className="gp-sub">Pick your make and model and we&apos;ll recommend the fuel and engine oil that suit it.</p>
+            <a className="gp-more" href={sectionHref(design, "fuel-finder")}>
+              Fuel &amp; oil guide <ArrowRight size={15} />
+            </a>
           </div>
           <FuelAdvisor />
         </div>
       ),
     },
-    { id: "prices", label: "Prices", content: <Prices />, tone: t[3] },
-    { id: "stations", label: "Stations", content: <Stations />, tone: t[4] },
-    { id: "contact", label: "Contact", content: <Contact />, tone: t[5] },
+    { id: "prices", label: "Prices", content: <Prices more={sectionHref(design, "prices")} />, tone: t[3] },
+    { id: "stations", label: "Stations", content: <Stations more={sectionHref(design, "stations")} />, tone: t[4] },
+    { id: "contact", label: "Contact", content: <Contact more={sectionHref(design, "contact")} />, tone: t[5] },
   ];
   return (
     <>
-      <PanelDeck panels={panels} header={<Header />} className={`design-${design}`} />
+      <PanelDeck panels={panels} header={<GroupHeader design={design} />} className={`design-${design}`} />
       <DesignSwitcher design={design} />
       <ChatWidget />
     </>

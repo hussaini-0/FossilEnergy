@@ -150,3 +150,7 @@
 /* White cards keep dark text even on dark panels */
 .gp-company, .gp-adv-form, .gp-adv-result, .gp-station-card, .gp-modal-card { color: var(--gp-ink); }
 @media (max-width: 760px) { .gp-home-c h1 { font-size: clamp(38px, 11vw, 50px); } .gp-home-c .gp-lede { margin-bottom: 14px; font-size: 13.5px; } .hc-top { gap: 12px; } .hc-lines { margin-top: 14px; } }
+.gp-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; color: var(--gp-red-2); font-size: 13.5px; font-weight: 700; transition: gap .2s; }
+.tone-light .gp-more, .gp-station-card .gp-more { color: var(--gp-red); }
+.gp-more:hover { gap: 9px; }
+.gp-station-card .gp-more { margin-top: 0; }
