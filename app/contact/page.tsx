@@ -4,6 +4,7 @@ import { sectionTitle } from "@/data/designs";
 import "../group.css";
 import "../group-designs.css";
 import "../group-wave.css";
+import "../group-ignition.css";
 import "../group-pages.css";
 
 export const metadata: Metadata = { title: `${sectionTitle("contact")} | Fossil Group` };

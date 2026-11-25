@@ -3,6 +3,7 @@ import GroupSite from "@/components/group/GroupSite";
 import "./group.css";
 import "./group-designs.css";
 import "./group-wave.css";
+import "./group-ignition.css";
 
 export const metadata: Metadata = {
   title: "Fossil Group | Fuel, lubricants & LPG for Pakistan",

@@ -16,6 +16,8 @@ import GroupHeader from "./GroupHeader";
 import { sectionHref } from "@/data/designs";
 import { DESIGNS, LINE_ICONS, OgraBadge, designHref, type Design } from "./shared";
 import { HomeB, HomeC, HomeD } from "./Homes";
+import HomeE from "./ignition/HomeE";
+import IgnitionFX, { IgnitionFonts } from "./ignition/IgnitionFX";
 import { HeroWave, PriceTicker } from "./shared";
 import FuelAdvisor from "./FuelAdvisor";
 import StationMap, { type MapPoint } from "@/components/StationMap";
@@ -358,8 +360,9 @@ const TONES: Record<Design, Tone[]> = {
   b: ["light", "light", "light", "light", "light", "light"],
   c: ["dark", "light", "dark", "light", "light", "dark"],
   d: ["dark", "dark", "light", "dark", "light", "dark"],
+  e: ["dark", "dark", "dark", "dark", "dark", "dark"],
 };
-const HOMES = { a: HomeA, b: HomeB, c: HomeC, d: HomeD };
+const HOMES = { a: HomeA, b: HomeB, c: HomeC, d: HomeD, e: HomeE };
 
 function DesignSwitcher({ design }: { design: Design }) {
   return (
@@ -409,6 +412,12 @@ export default function GroupSite({ design = "a" }: { design?: Design }) {
     <>
       <PanelDeck panels={panels} header={<GroupHeader design={design} />} className={`design-${design}`} />
       <DesignSwitcher design={design} />
+      {design === "e" && (
+        <>
+          <IgnitionFonts />
+          <IgnitionFX mode="deck" />
+        </>
+      )}
       <ChatWidget />
     </>
   );

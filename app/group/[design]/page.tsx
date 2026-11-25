@@ -4,6 +4,7 @@ import { DESIGNS, type Design } from "@/data/designs";
 import "../../group.css";
 import "../../group-designs.css";
 import "../../group-wave.css";
+import "../../group-ignition.css";
 
 export const dynamicParams = false;
 export function generateStaticParams() {

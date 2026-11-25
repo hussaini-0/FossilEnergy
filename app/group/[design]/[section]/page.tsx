@@ -4,6 +4,7 @@ import { DESIGNS, SECTIONS, sectionTitle, type Design, type Section } from "@/da
 import "../../../group.css";
 import "../../../group-designs.css";
 import "../../../group-wave.css";
+import "../../../group-ignition.css";
 import "../../../group-pages.css";
 
 export const dynamicParams = false;

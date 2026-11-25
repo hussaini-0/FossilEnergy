@@ -22,6 +22,7 @@ import FuelAdvisor from "./FuelAdvisor";
 import { HeroWave, OgraBadge, fmtTime } from "./shared";
 import StationMap, { type MapPoint } from "@/components/StationMap";
 import ChatWidget from "@/components/ChatWidget";
+import IgnitionFX, { IgnitionFonts } from "./ignition/IgnitionFX";
 import { companies, group } from "@/data/groupContent";
 import { DESIGNS, SECTIONS, designHref, sectionHref, type Design, type Section } from "@/data/designs";
 import {
@@ -467,6 +468,12 @@ export default function GroupPage({ design, section }: { design: Design; section
         </div>
       </footer>
       <PageDesigns design={design} section={section} />
+      {design === "e" && (
+        <>
+          <IgnitionFonts />
+          <IgnitionFX mode="page" />
+        </>
+      )}
       <ChatWidget />
     </div>
   );

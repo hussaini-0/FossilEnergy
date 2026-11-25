@@ -123,6 +123,9 @@ export default function PanelDeck({ panels, header, className = "" }: { panels: 
             aria-hidden={i !== index}
             inert={i !== index}
           >
+            <span className="gp-panel-num" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
             {p.content}
           </section>
         ))}
