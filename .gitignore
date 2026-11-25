@@ -8,3 +8,5 @@ test-results/
 output/
 next-env.d.ts
 _backup_before_demo_fixes/
+__pycache__/
+*.pyc
