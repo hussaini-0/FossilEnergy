@@ -358,7 +358,7 @@ type Tone = "dark" | "light";
 const TONES: Record<Design, Tone[]> = {
   a: ["dark", "light", "light", "dark", "light", "dark"],
   d: ["dark", "dark", "light", "dark", "light", "dark"],
-  e: ["dark", "dark", "dark", "dark", "dark", "dark"],
+  e: ["dark", "light", "light", "light", "light", "light"],
 };
 const HOMES = { a: HomeA, d: HomeD, e: HomeE };
 

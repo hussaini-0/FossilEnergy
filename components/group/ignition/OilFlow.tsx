@@ -66,16 +66,16 @@ const fragment = /* glsl */ `
     float spec = pow(clamp(dot(reflect(-light, n), view), 0.0, 1.0), 22.0);
     float rim = pow(1.0 - clamp(n.z, 0.0, 1.0), 2.0);
 
-    vec3 base = vec3(0.035, 0.035, 0.045);
-    vec3 crease = vec3(0.46, 0.04, 0.06);     // deep brand red
+    vec3 base = vec3(0.07, 0.065, 0.075);
+    vec3 crease = vec3(0.62, 0.06, 0.08);     // deep brand red
     vec3 sheen = vec3(1.0, 0.42, 0.16);       // amber
     vec3 col = base + crease * smoothstep(0.3, 0.8, h) * (0.3 + 0.7 * diff);
-    col += sheen * rim * 0.3;
-    col += vec3(1.0, 0.86, 0.78) * spec * 0.4;
+    col += sheen * rim * 0.42;
+    col += vec3(1.0, 0.88, 0.8) * spec * 0.6;
 
     // Vignette keeps text areas calm.
     float v = smoothstep(1.25, 0.25, length((uv - vec2(0.62, 0.55)) * vec2(1.25, 1.0)));
-    col *= 0.55 + 0.45 * v;
+    col *= 0.7 + 0.3 * v;
     gl_FragColor = vec4(col, 1.0);
   }
 `;
