@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./liquid.css";
+import "./demo.css";
 export const metadata: Metadata = {
   title: "Fossil Energy | Energizing Pakistan",
   description:

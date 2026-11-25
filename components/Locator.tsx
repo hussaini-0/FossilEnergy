@@ -1,27 +1,63 @@
 "use client";
 import { useState } from "react";
-import { MapPin, Search, Navigation } from "lucide-react";
-import { stations } from "@/data/fossilContent";
-import StationMap from "./StationMap";
+import { MapPin, Search, Navigation, Warehouse } from "lucide-react";
+import StationMap, { type MapPoint } from "./StationMap";
+import {
+  REGIONS,
+  TERMINAL_STATUS,
+  formatDate,
+  formatPrice,
+  useDemoData,
+} from "@/lib/demoStore";
+
 export default function Locator({
   directory = false,
 }: {
   directory?: boolean;
 }) {
+  const { stations, terminals, prices, pricesUpdated } = useDemoData();
   const [province, setProvince] = useState("All regions");
   const [query, setQuery] = useState("");
-  const [chosen, setChosen] = useState("Lahore");
+  const [chosen, setChosen] = useState("lhr");
+  const [showTerminals, setShowTerminals] = useState(true);
+  const q = query.trim().toLowerCase();
   const filtered = stations.filter(
     (s) =>
       (province === "All regions" || s.province === province) &&
-      s.city.toLowerCase().includes(query.trim().toLowerCase()),
+      `${s.name} ${s.city}`.toLowerCase().includes(q),
   );
-  // Keep the list and map in agreement: if the chosen city is filtered out,
+  // Keep the list and map in agreement: if the chosen station is filtered out,
   // highlight the first remaining result instead.
-  const selected = filtered.some((s) => s.city === chosen)
-    ? chosen
-    : (filtered[0]?.city ?? "");
-  const setSelected = setChosen;
+  const selectedStation =
+    filtered.find((s) => s.id === chosen) ?? filtered[0] ?? null;
+  const selected = selectedStation?.id ?? "";
+  const priceRegion =
+    selectedStation?.province ??
+    (province !== "All regions" ? (province as (typeof REGIONS)[number]) : "Punjab");
+  const price = prices[priceRegion];
+
+  const points: MapPoint[] = [
+    ...filtered.map((s) => ({
+      id: s.id,
+      label: s.name,
+      sub: `${s.city}, ${s.province}${s.status === "coming-soon" ? " · Coming soon" : ""}`,
+      lat: s.lat,
+      lng: s.lng,
+      kind: "station" as const,
+      muted: s.status === "coming-soon",
+    })),
+    ...(showTerminals
+      ? terminals.map((t) => ({
+          id: `t-${t.id}`,
+          label: `${t.name} terminal`,
+          sub: TERMINAL_STATUS[t.status],
+          lat: t.lat,
+          lng: t.lng,
+          kind: "terminal" as const,
+        }))
+      : []),
+  ];
+
   return (
     <section id="stations" className="section wrap locator-section">
       <div className="section-heading">
@@ -34,22 +70,32 @@ export default function Locator({
           </h2>
         </div>
         <p>
-          Explore our network vision across Pakistan.
+          Explore our network across Pakistan.
           <br />
           <small>
-            Preview only: city-centre coordinates, not verified station
-            locations.
+            Design demo: locations and prices are managed in the back office
+            preview.
           </small>
         </p>
       </div>
       <div className={`locator ${directory ? "directory" : ""}`}>
         <div className="station-directory">
+          <div className="price-strip" aria-live="polite">
+            <span className="price-region">Fuel prices · {priceRegion}</span>
+            <span>
+              <small>PMG</small> {formatPrice(price.pmg)}
+            </span>
+            <span>
+              <small>HSD</small> {formatPrice(price.hsd)}
+            </span>
+            <small className="price-date">PKR/L · {formatDate(pricesUpdated)}</small>
+          </div>
           <div className="filters">
             <label className="search">
               <Search size={18} />
               <input
-                aria-label="Search city"
-                placeholder="Search a city…"
+                aria-label="Search stations"
+                placeholder="Search a city or station…"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -62,35 +108,40 @@ export default function Locator({
               value={province}
               onChange={(e) => setProvince(e.target.value)}
             >
-              {["All regions", "Punjab", "Sindh", "KPK"].map((p) => (
+              {["All regions", ...REGIONS].map((p) => (
                 <option key={p}>{p}</option>
               ))}
             </select>
           </div>
           <p className="result-count" role="status">
-            {filtered.length} preview locations
+            {filtered.length} {filtered.length === 1 ? "station" : "stations"}
           </p>
           <div className="station-list">
             {filtered.map((s) => (
               <article
-                key={s.city}
-                className={`station ${selected === s.city ? "selected" : ""}`}
+                key={s.id}
+                className={`station ${selected === s.id ? "selected" : ""}`}
               >
                 <button
-                  onClick={() => setSelected(s.city)}
-                  aria-pressed={selected === s.city}
+                  onClick={() => setChosen(s.id)}
+                  aria-pressed={selected === s.id}
                 >
                   <MapPin size={20} />
                   <span>
-                    <strong>{s.city}</strong>
-                    <small>{s.province} · Illustrative location</small>
+                    <strong>
+                      {s.name}
+                      {s.status === "coming-soon" && (
+                        <em className="station-badge">Coming soon</em>
+                      )}
+                    </strong>
                     <small>
-                      {s.lat.toFixed(4)}° N, {s.lng.toFixed(4)}° E
+                      {s.city}, {s.province}
                     </small>
+                    <small>{s.services.join(" · ")}</small>
                   </span>
                 </button>
                 <a
-                  aria-label={`Get directions to ${s.city} city centre`}
+                  aria-label={`Get directions to ${s.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   href={`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}`}
@@ -101,7 +152,7 @@ export default function Locator({
             ))}
             {!filtered.length && (
               <p className="empty-state">
-                No cities match. Try another city or region.
+                No stations match. Try another city or region.
               </p>
             )}
           </div>
@@ -109,16 +160,24 @@ export default function Locator({
         {!directory && (
           <div className="network-map">
             <div className="map-caption">
-              PAKISTAN <span>NETWORK PREVIEW</span>
+              PAKISTAN <span>STATIONS & TERMINALS</span>
             </div>
             <StationMap
-              stations={filtered}
+              points={points}
               selected={selected}
-              onSelect={setSelected}
+              onSelect={(id) => !id.startsWith("t-") && setChosen(id)}
+              ariaLabel="Map of Fossil stations and storage terminals in Pakistan"
             />
             <div className="map-legend">
-              <span />
-              Preview locations <small>City centres · Not verified station sites</small>
+              <span /> Stations
+              <label className="legend-toggle">
+                <input
+                  type="checkbox"
+                  checked={showTerminals}
+                  onChange={(e) => setShowTerminals(e.target.checked)}
+                />
+                <Warehouse size={13} /> Storage terminals
+              </label>
             </div>
           </div>
         )}

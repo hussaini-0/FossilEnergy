@@ -15,10 +15,10 @@ export default function NotFound() {
           </p>
           <div className="hero-actions">
             <a className="button primary" href={pageHref("2d")}>
-              Motion 2D home
+              Version 2 home
             </a>
             <a className="button secondary" href={pageHref("3d")}>
-              Cinematic home
+              Version 1 home
             </a>
             <a className="button secondary" href={pageHref("2d", undefined, "explore")}>
               Search all information

@@ -11,8 +11,8 @@ npm run dev        # http://127.0.0.1:3000
 
 Routes:
 
-- `/` and `/2d`: **Motion 2D** — photographic editorial landing with GSAP/Lenis scroll, Framer Motion pipeline, ecosystem cards, partner drawer, station finder and searchable information directory.
-- `/3d`: **Cinematic** — dark landing with the WebGL "Traffic Wave" hero, tilt cards for the four business pillars, station finder and information directory.
+- `/` and `/2d`: **Version 2** (Motion 2D) — photographic editorial landing with GSAP/Lenis scroll, Framer Motion pipeline, ecosystem cards, partner drawer, station finder and searchable information directory.
+- `/3d`: **Version 1** (Cinematic) — dark landing with the WebGL "Traffic Wave" hero, tilt cards for the four business pillars, station finder and information directory.
 - `/2d/<page>` and `/3d/<page>`: the 35 information pages in each theme.
 
 Use the bottom-right "View version" switcher to compare the two concepts on the same page. Both landings share the same section anchors (`#stations`, `#explore`), the left quick-links rail, footer and switcher. All internal URLs are built by `pageHref()` in `data/fossilContent.ts`.

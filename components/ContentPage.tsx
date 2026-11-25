@@ -8,6 +8,7 @@ import mediaData from "@/data/sourceMedia.json";
 import catalogs from "@/data/productCatalog.json";
 import { Header, Footer, Switcher, type Variant } from "./Shell";
 import ContactInquiry from "./ContactInquiry";
+import ChatWidget from "./ChatWidget";
 import QuickLinksRail from "./QuickLinksRail";
 type Asset = {
   url: string;
@@ -298,6 +299,7 @@ export default function ContentPage({
       </main>
       <Footer variant={variant} />
       <Switcher variant={variant} slug={page.slug} />
+      <ChatWidget />
     </div>
   );
 }

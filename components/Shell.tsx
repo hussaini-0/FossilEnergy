@@ -1,4 +1,5 @@
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, Phone, LayoutDashboard } from "lucide-react";
+import MobileMenu from "./MobileMenu";
 import {
   company,
   contentGroups,
@@ -6,6 +7,7 @@ import {
   nestPages,
   pageHref,
   variants,
+  versionName,
   type Variant,
 } from "@/data/fossilContent";
 export type { Variant };
@@ -39,23 +41,23 @@ export function Header({ variant = "3d" }: { variant?: Variant }) {
       <a className="header-cta" href={pageHref(variant, undefined, "stations")}>
         <MapPin size={16} /> Find a station
       </a>
-      <details className="mobile-nav">
-        <summary>Menu</summary>
-        <nav aria-label="Mobile navigation">
-          {contentGroups.map((group) => (
-            <details key={group}>
-              <summary>{group}</summary>
-              {nestPages(contentPages.filter((p) => p.group === group))
-                .map(({ page: p, child }) => (
-                  <a key={p.slug} href={pageHref(variant, p.slug)} className={child ? "nav-child" : undefined}>
-                    {p.title}
-                  </a>
-                ))}
-            </details>
-          ))}
-          <a href={pageHref(variant, undefined, "explore")}>Search all information</a>
-        </nav>
-      </details>
+      <MobileMenu
+        variant={variant}
+        links={[
+          ["Home", pageHref(variant)],
+          ["Find a station", pageHref(variant, undefined, "stations")],
+          ["Search all information", pageHref(variant, undefined, "explore")],
+          ["Contact us", pageHref(variant, "contact-us")],
+        ]}
+        groups={contentGroups.map((group) => ({
+          title: group,
+          links: nestPages(contentPages.filter((p) => p.group === group)).map(({ page: p, child }) => ({
+            label: p.title,
+            href: pageHref(variant, p.slug),
+            child,
+          })),
+        }))}
+      />
     </header>
   );
 }
@@ -76,9 +78,13 @@ export function Switcher({
             href={pageHref(v, slug)}
             aria-current={variant === v ? "page" : undefined}
           >
-            {v === "3d" ? "Cinematic" : "Motion 2D"}
+            {versionName(v)}
           </a>
         ))}
+        <a href="/admin" className="switcher-admin" title="Back office preview">
+          <LayoutDashboard size={14} aria-hidden="true" />
+          <span>Back office</span>
+        </a>
       </div>
     </aside>
   );

@@ -6,6 +6,8 @@ import { ArrowRight, ArrowUpRight, X } from "lucide-react";
 import { company, pageHref } from "@/data/fossilContent";
 import Magnet from "./ReactBitsMagnet";
 import QuickLinksRail from "./QuickLinksRail";
+import MobileMenu from "./MobileMenu";
+import { REGIONS, type Region, formatDate, formatPrice, useDemoData } from "@/lib/demoStore";
 
 const values = ["We Strive", "Customer Focus", "Integrity", "Operational Excellence", "Team Building", "We Care"];
 function Pipeline() {
@@ -70,10 +72,15 @@ const ecosystemCards = [
 ];
 
 function Ecosystem() {
+  const { terminals } = useDemoData();
+  const live = terminals.filter((t) => t.status === "operational").map((t) => t.name);
+  const storageText = live.length
+    ? `${live.join(" and ").replace(/ and (?=.* and )/g, ", ")} ${live.length === 1 ? "is" : "are"} operational, with ${terminals.length - live.length} more sites in the storage portfolio.`
+    : "Storage sites are being prepared.";
   return <section className="lp-section lp-ecosystem" id="ecosystem">
     <div className="lp-section-intro"><span className="lp-kicker">02 / THE ECOSYSTEM</span><h2>What Fossil<br /><em>does.</em></h2><p>Retail fuel, oil storage, LPG and lubricants. Explore each part of the business.</p></div>
     <div className="lp-bento">
-      {ecosystemCards.map((card) => <article className="lp-card lp-story-card" key={card.number}>
+      {ecosystemCards.map((c) => c.number === "01" ? { ...c, text: storageText } : c).map((card) => <article className="lp-card lp-story-card" key={card.number}>
         <div className={`lp-story-media lp-story-media-${card.number}`}><img src={card.image} alt={card.alt} loading="lazy" /></div>
         <div className="lp-story-content">
           <span className="lp-story-eyebrow"><b>{card.number}</b> / {card.label}</span>
@@ -131,13 +138,20 @@ function PartnerDrawer({ open, onClose }: { open: boolean; onClose: () => void }
   return <div className="lp-drawer-layer"><button className="lp-drawer-backdrop" type="button" aria-label="Close partner panel" onClick={onClose} /><aside ref={drawerRef} className="lp-drawer" role="dialog" aria-modal="true" aria-labelledby="lp-drawer-title"><div className="lp-drawer-head"><span>FOSSIL / PARTNERSHIPS</span><button ref={closeRef} type="button" onClick={onClose} aria-label="Close"><X size={22} /></button></div><h2 id="lp-drawer-title">Build the next<br />connection.</h2><p>Explore a partnership track and station layout. Contact the team to begin an application.</p><span className="lp-form-label">APPLICATION TRACK</span><div className="lp-track-tabs">{["Partnership", "Dealership", "Franchise"].map((t) => <button type="button" key={t} aria-pressed={track === t} onClick={() => setTrack(t)}>{t}</button>)}</div><span className="lp-form-label">SITE TYPOLOGY</span><div className="lp-layout-tabs">{layouts.map((item) => <button type="button" key={item.label} aria-pressed={layout === item.label} onClick={() => setLayout(item.label)}>{item.label}</button>)}</div><div className="lp-blueprint" aria-label={`${layout} illustrative site plan`}><span>ILLUSTRATIVE SITE PLAN / {layout.toUpperCase()}</span><div className="lp-blueprint-drive"><div className="lp-blueprint-canopy">{Array.from({ length: modules }, (_, i) => <i key={i} />)}</div><div className="lp-blueprint-office" /></div><small>ENTRY → CANOPY → SERVICE → EXIT</small></div><a className="lp-layout-link" href={layouts.find((l) => l.label === layout)?.href}>View published {layout.toLowerCase()} layout <ArrowUpRight size={16} /></a><div className="lp-application-note">Application intake is not connected in this preview. Please contact Fossil Energy directly; do not enter identity numbers here.</div><a className="lp-drawer-cta" href={pageHref("2d", "contact-us")}>Contact the partnership team <ArrowRight size={17} /></a></aside></div>;
 }
 
+function Tariff() {
+  const { prices, pricesUpdated } = useDemoData();
+  const [region, setRegion] = useState<Region>("Punjab");
+  const p = prices[region];
+  return <div className="lp-tariff"><span>FUEL PRICE SNAPSHOT</span><label className="lp-tariff-region"><span className="sr-only">Region</span><select value={region} onChange={(e) => setRegion(e.target.value as Region)}>{REGIONS.map((r) => <option key={r}>{r}</option>)}</select></label><strong>PMG {formatPrice(p.pmg)}</strong><i /> <strong>HSD {formatPrice(p.hsd)}</strong><small>PKR/L · {formatDate(pricesUpdated).toUpperCase()}</small></div>;
+}
+
 export default function LiquidPrecision() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   return <div className="lp-page">
-    <header className="lp-header"><a href={pageHref("2d")} aria-label="Fossil Energy home"><img src="/images/fossil-logo.png" width="250" height="81" alt="Fossil — your energy partner" /></a><nav aria-label="Main navigation"><a href="#governance">Governance & IT</a><a href="#ecosystem">Ecosystem</a><a href="#vision">Vision</a><a href="#stations">Stations</a><a href="#explore">Information</a></nav><button type="button" onClick={() => setDrawerOpen(true)}>Become a partner <ArrowUpRight size={16} /></button><details className="lp-mobile-menu"><summary role="button" aria-label="Toggle menu">Menu</summary><nav aria-label="Mobile navigation" onClick={(event) => { if (event.target instanceof HTMLElement && event.target.closest("a, button")) event.currentTarget.closest("details")?.removeAttribute("open"); }}><a href="#governance">Governance & IT</a><a href="#ecosystem">Ecosystem</a><a href="#vision">Vision</a><a href="#stations">Stations</a><a href="#explore">Information</a><a href={pageHref("2d", "contact-us")}>Contact us</a><button type="button" onClick={() => setDrawerOpen(true)}>Become a partner</button></nav></details></header>
+    <header className="lp-header"><a href={pageHref("2d")} aria-label="Fossil Energy home"><img src="/images/fossil-logo.png" width="250" height="81" alt="Fossil — your energy partner" /></a><nav aria-label="Main navigation"><a href="#governance">Governance & IT</a><a href="#ecosystem">Ecosystem</a><a href="#vision">Vision</a><a href="#stations">Stations</a><a href="#explore">Information</a></nav><button type="button" onClick={() => setDrawerOpen(true)}>Become a partner <ArrowUpRight size={16} /></button><MobileMenu links={[["Governance & IT", "#governance"], ["Ecosystem", "#ecosystem"], ["Vision", "#vision"], ["Stations", "#stations"], ["Information", "#explore"], ["Contact us", pageHref("2d", "contact-us")]]} variant="2d" cta={{ label: "Become a partner", onClick: () => setDrawerOpen(true) }} /></header>
     <QuickLinksRail variant="2d" />
     <main id="main"><section className="lp-hero"><div className="lp-hero-image"><img src="/source-media/bfdb45a26b7ddc.jpeg" width="1350" height="354" alt="Fossil fuel station illuminated at night" fetchPriority="high" /></div><div className="lp-hero-copy"><span className="lp-kicker">RELIABLE ENERGY. NATIONAL REACH.</span><h1>Fossil<br />Energy</h1><p>{company.description}</p><Magnet padding={70} magnetStrength={7} maxOffset={12} wrapperClassName="lp-magnet"><a href="#ecosystem" className="lp-hero-cta">Explore our business <ArrowRight size={18} /></a></Magnet></div></section><div className="lp-value-strip" aria-label="Core values"><span>OUR CORE VALUES</span><div className="lp-value-window"><div>{[...values, ...values].map((v, i) => <span key={`${v}-${i}`}>{v}<b>✦</b></span>)}</div></div></div><Pipeline /><Ecosystem /><Horizon /></main>
-    <div className="lp-tariff"><span>FUEL PRICE SNAPSHOT</span><strong>PMG 335.06</strong><i /> <strong>HSD 390.62</strong><small>PKR/L · 30 JUL 2026</small><a href="https://fossilpk.com/fuel-price/" target="_blank" rel="noopener noreferrer" aria-label="Check latest published fuel prices">LATEST ↗</a></div>
+    <Tariff />
     <PartnerDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
   </div>;
 }

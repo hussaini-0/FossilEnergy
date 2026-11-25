@@ -7,6 +7,8 @@ export {
 } from "./siteContent";
 export type Variant = "3d" | "2d";
 export const variants: Variant[] = ["3d", "2d"];
+/** Display names shown to visitors: 3d is "Version 1", 2d is "Version 2". */
+export const versionName = (v: Variant) => (v === "3d" ? "Version 1" : "Version 2");
 /** Single place that builds internal URLs, so renamed pages never leave stale links. */
 export const pageHref = (variant: Variant, slug?: string, hash?: string) =>
   `/${variant}${slug ? `/${slug}` : ""}${hash ? `#${hash}` : ""}`;

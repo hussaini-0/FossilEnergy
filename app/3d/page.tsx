@@ -8,6 +8,8 @@ import Locator from "@/components/Locator";
 import { company, pageHref } from "@/data/fossilContent";
 import TrafficWave from "@/components/TrafficWave";
 import QuickLinksRail from "@/components/QuickLinksRail";
+import MobileMenu from "@/components/MobileMenu";
+import ChatWidget from "@/components/ChatWidget";
 export default function Page() {
   return (
     <div className="theme immersive">
@@ -24,12 +26,11 @@ export default function Page() {
           <a href="#explore">Information</a>
         </nav>
         <a className="cinematic-contact" href={pageHref("3d", "contact-us")}>Contact us <span aria-hidden="true">↗</span></a>
-        <details className="cinematic-menu">
-          <summary>Menu</summary>
-          <nav aria-label="Mobile navigation">
-            <a href={pageHref("3d")}>Home</a><a href="#about">About</a><a href="#operations">Operations</a><a href="#stations">Stations</a><a href="#explore">Information</a><a href={pageHref("3d", "contact-us")}>Contact us</a>
-          </nav>
-        </details>
+        <MobileMenu
+          variant="3d"
+          links={[["Home", pageHref("3d")], ["About", "#about"], ["Operations", "#operations"], ["Stations", "#stations"], ["Information", "#explore"]]}
+          cta={{ label: "Contact us", href: pageHref("3d", "contact-us") }}
+        />
       </header>
       <QuickLinksRail variant="3d" />
       <main id="main">
@@ -68,6 +69,7 @@ export default function Page() {
       </main>
       <Footer variant="3d" />
       <Switcher variant="3d" />
+      <ChatWidget />
     </div>
   );
 }
