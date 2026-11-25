@@ -105,3 +105,5 @@
 .legend-toggle input { accent-color: #1d2430; }
 .network-map .legend-toggle svg { width: 13px; height: 13px; flex: none; }
 .lp-tariff-region select { border: 1px solid #d9dce2; border-radius: 6px; background: #fff; padding: 3px 6px; font: inherit; color: #17181d; }
+.switcher .switcher-group { margin-right: 4px; border-right: 1px solid #e4e4e8; border-radius: 8px 0 0 8px; color: #5b5e66; }
+.switcher .switcher-group:hover { color: #c8101a; }

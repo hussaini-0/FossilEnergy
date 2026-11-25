@@ -72,6 +72,9 @@ export function Switcher({
     <aside className="switcher" aria-label="Presentation switcher">
       <span>VIEW VERSION</span>
       <div>
+        <a href="/" className="switcher-group" title="Fossil Group home">
+          Group
+        </a>
         {variants.map((v) => (
           <a
             key={v}

@@ -13,6 +13,7 @@ import {
   Check,
   Search,
   Activity as ActivityIcon,
+  Send,
 } from "lucide-react";
 import StationMap, { type MapPoint } from "@/components/StationMap";
 import {
@@ -22,6 +23,7 @@ import {
   formatDate,
   formatPrice,
   newId,
+  ograRef,
   resetDemo,
   updateDemo,
   useDemoData,
@@ -35,7 +37,7 @@ type Tab = "overview" | "stations" | "prices" | "storage";
 const TABS: { id: Tab; label: string; icon: typeof Fuel }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "stations", label: "Stations", icon: MapPin },
-  { id: "prices", label: "Fuel prices", icon: Fuel },
+  { id: "prices", label: "Fuel prices · OGRA", icon: Fuel },
   { id: "storage", label: "Storage", icon: Warehouse },
 ];
 
@@ -413,7 +415,9 @@ function Stations({ toast }: { toast: (m: string) => void }) {
 /* ───────────────────────── Fuel prices ───────────────────────── */
 
 function Prices({ toast }: { toast: (m: string) => void }) {
-  const { prices, pricesUpdated } = useDemoData();
+  const { prices, pricesUpdated, ogra } = useDemoData();
+  const [step, setStep] = useState(-1);
+  const [ref, setRef] = useState("");
   const toDraft = () =>
     Object.fromEntries(REGIONS.map((r) => [r, { pmg: formatPrice(prices[r].pmg), hsd: formatPrice(prices[r].hsd) }])) as Record<Region, { pmg: string; hsd: string }>;
   const [draft, setDraft] = useState(toDraft);
@@ -424,16 +428,36 @@ function Prices({ toast }: { toast: (m: string) => void }) {
   );
   const invalid = REGIONS.some((r) => !(parseFloat(draft[r].pmg) > 0) || !(parseFloat(draft[r].hsd) > 0));
 
-  const publish = () => {
-    updateDemo(
-      (d) => ({
-        ...d,
-        prices: Object.fromEntries(REGIONS.map((r) => [r, { pmg: parseFloat(draft[r].pmg), hsd: parseFloat(draft[r].hsd) }])) as typeof d.prices,
-        pricesUpdated: new Date().toISOString(),
-      }),
-      `Published fuel prices for ${changed.join(", ")}`,
+  const OGRA_STEPS = [
+    "Validating prices",
+    "Submitting to OGRA portal",
+    "OGRA acknowledgement received",
+    "Website updated",
+  ];
+  // Simulated submission: each step completes after a short delay; the
+  // acknowledgement step "returns" a reference and the last one publishes.
+  const submit = () => {
+    const newRef = ograRef();
+    setRef(newRef);
+    setStep(0);
+    OGRA_STEPS.forEach((_, i) =>
+      window.setTimeout(() => {
+        setStep(i + 1);
+        if (i === OGRA_STEPS.length - 1) {
+          const now = new Date().toISOString();
+          updateDemo(
+            (d) => ({
+              ...d,
+              prices: Object.fromEntries(REGIONS.map((r) => [r, { pmg: parseFloat(draft[r].pmg), hsd: parseFloat(draft[r].hsd) }])) as typeof d.prices,
+              pricesUpdated: now,
+              ogra: { ref: newRef, submittedAt: now },
+            }),
+            `Submitted prices to OGRA (${newRef}) for ${changed.join(", ")}`,
+          );
+          toast("OGRA confirmed · prices live on the website");
+        }
+      }, 700 * (i + 1)),
     );
-    toast("Prices published · live on the website");
   };
 
   const delta = (now: string, was: number) => {
@@ -448,14 +472,16 @@ function Prices({ toast }: { toast: (m: string) => void }) {
         <div className="bo-card-head">
           <div>
             <h2>Region-wise prices</h2>
-            <p className="bo-muted">PKR per litre · last published {formatDate(pricesUpdated)}</p>
+            <p className="bo-muted">
+              PKR per litre · last OGRA submission {formatDate(pricesUpdated)} · ref {ogra.ref}
+            </p>
           </div>
           <div className="bo-form-actions">
             <button type="button" className="bo-btn ghost" disabled={!changed.length} onClick={() => setDraft(toDraft())}>
               Discard
             </button>
-            <button type="button" className="bo-btn" disabled={!changed.length || invalid} onClick={publish}>
-              <Check size={16} /> Publish {changed.length ? `(${changed.length})` : ""}
+            <button type="button" className="bo-btn" disabled={!changed.length || invalid || step >= 0} onClick={submit}>
+              <Send size={15} /> Submit to OGRA {changed.length ? `(${changed.length})` : ""}
             </button>
           </div>
         </div>
@@ -495,6 +521,29 @@ function Prices({ toast }: { toast: (m: string) => void }) {
         </div>
         <p className="bo-muted">Visitors pick their region in the price bar and station finder on both versions.</p>
       </section>
+      {step >= 0 && (
+        <div className="bo-modal-layer">
+          <div className="bo-modal" role="dialog" aria-modal="true" aria-labelledby="ogra-title">
+            <span className="bo-ogra-badge">OGRA · Oil & Gas Regulatory Authority</span>
+            <h2 id="ogra-title">{step < OGRA_STEPS.length ? "Submitting prices to OGRA" : "Prices submitted"}</h2>
+            <ol className="bo-steps">
+              {OGRA_STEPS.map((label, i) => (
+                <li key={label} className={i < step ? "done" : i === step ? "active" : ""}>
+                  <span>{i < step ? <Check size={14} /> : i + 1}</span>
+                  {label}
+                  {i === 2 && i < step && <small>Ref {ref}</small>}
+                </li>
+              ))}
+            </ol>
+            <p className="bo-muted">Demo simulation: no data is sent to OGRA. In production this would use the access OGRA provides.</p>
+            <div className="bo-form-actions">
+              <button type="button" className="bo-btn" disabled={step < OGRA_STEPS.length} onClick={() => setStep(-1)}>
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

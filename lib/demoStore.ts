@@ -43,6 +43,8 @@ export type DemoData = {
   terminals: Terminal[];
   prices: Record<Region, RegionPrice>;
   pricesUpdated: string;
+  /** Simulated OGRA submission that the published prices came from. */
+  ogra: { ref: string; submittedAt: string };
   activity: Activity[];
 };
 
@@ -79,6 +81,7 @@ const seed: DemoData = {
     Islamabad: { pmg: 335.06, hsd: 390.62 },
   },
   pricesUpdated: "2026-07-30T09:00:00.000Z",
+  ogra: { ref: "OGRA-OMC-2607-0418", submittedAt: "2026-07-30T08:40:00.000Z" },
   activity: [{ at: "2026-07-30T09:00:00.000Z", text: "Demo data loaded" }],
 };
 
@@ -140,6 +143,9 @@ export function resetDemo() {
   } catch {}
   emit();
 }
+
+export const ograRef = () =>
+  `OGRA-OMC-${new Date().toISOString().slice(2, 7).replace("-", "")}-${String(Math.floor(1000 + Math.random() * 9000))}`;
 
 export const newId = () => Math.random().toString(36).slice(2, 9);
 

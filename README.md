@@ -11,7 +11,9 @@ npm run dev        # http://127.0.0.1:3000
 
 Routes:
 
-- `/` and `/2d`: **Version 2** (Motion 2D) — photographic editorial landing with GSAP/Lenis scroll, Framer Motion pipeline, ecosystem cards, partner drawer, station finder and searchable information directory.
+- `/`: **Fossil Group** home — full-screen panels with no page scroll (wheel, swipe, arrow keys, side dots): group intro with live prices, the four group companies (Fossil Energy, Clover Pakistan, CITA, Quick Gases), a fuel & oil finder for the visitor's car, region-wise prices synced from the (simulated) OGRA submission, a station map and contact.
+- `/admin`: back office preview (frontend only) for stations, storage sites and fuel prices with a simulated "Submit to OGRA" flow. Data lives in the browser's localStorage and updates every page live.
+- `/2d`: **Version 2** (Motion 2D) — photographic editorial landing with GSAP/Lenis scroll, Framer Motion pipeline, ecosystem cards, partner drawer, station finder and searchable information directory.
 - `/3d`: **Version 1** (Cinematic) — dark landing with the WebGL "Traffic Wave" hero, tilt cards for the four business pillars, station finder and information directory.
 - `/2d/<page>` and `/3d/<page>`: the 35 information pages in each theme.
 

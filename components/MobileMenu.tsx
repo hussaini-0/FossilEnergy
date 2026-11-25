@@ -15,7 +15,7 @@ export default function MobileMenu({
   groups,
 }: {
   links: [string, string][];
-  variant: Variant;
+  variant?: Variant;
   cta?: Cta;
   /** Optional collapsible sections listed under the main links (used on detail pages). */
   groups?: Group[];
@@ -115,6 +115,7 @@ export default function MobileMenu({
                 </a>
               </div>
               <div className="mm-versions" role="group" aria-label="Choose version">
+                <a href="/">Group</a>
                 {variants.map((v) => (
                   <a key={v} href={pageHref(v)} aria-current={v === variant ? "page" : undefined}>
                     {versionName(v)}
