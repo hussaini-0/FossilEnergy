@@ -3,6 +3,7 @@ import GroupSite from "@/components/group/GroupSite";
 import { DESIGNS, type Design } from "@/data/designs";
 import "../../group.css";
 import "../../group-designs.css";
+import "../../group-wave.css";
 
 export const dynamicParams = false;
 export function generateStaticParams() {

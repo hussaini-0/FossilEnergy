@@ -14,7 +14,7 @@ import {
 import PanelDeck, { type Panel } from "./PanelDeck";
 import { DESIGNS, LINE_ICONS, OgraBadge, designHref, type Design } from "./shared";
 import { HomeB, HomeC, HomeD } from "./Homes";
-import { PriceTicker } from "./shared";
+import { HeroWave, PriceTicker } from "./shared";
 import FuelAdvisor from "./FuelAdvisor";
 import StationMap, { type MapPoint } from "@/components/StationMap";
 import MobileMenu from "@/components/MobileMenu";
@@ -43,7 +43,7 @@ function HomeA() {
   return (
     <div className="gp-home">
       <div className="gp-home-bg">
-        <img src="/source-media/bfdb45a26b7ddc.jpeg" alt="" />
+        <HeroWave />
       </div>
       <div className="gp-wrap gp-home-grid">
         <div className="gp-home-copy">

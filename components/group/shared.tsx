@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Droplets, Flame, Fuel, ShieldCheck, Warehouse } from "lucide-react";
 import { REGIONS, formatPrice, useDemoData, type Region } from "@/lib/demoStore";
+import TrafficWave from "@/components/TrafficWave";
 
 export { DESIGNS, designHref, type Design } from "@/data/designs";
 
@@ -44,5 +45,24 @@ export function PriceTicker({ className = "gp-ticker", badge = true }: { classNa
       </div>
       {badge && <OgraBadge />}
     </aside>
+  );
+}
+
+/** Version 1's 3D "Traffic Wave" hero animation, with the same settings, shared by every group design. */
+export function HeroWave({ className = "gp-wave" }: { className?: string }) {
+  return (
+    <div className={className} aria-hidden="true">
+      <TrafficWave
+        leftLights={["#ee252e", "#d82029", "#ff694f"]}
+        rightLights={["#f4f4f6", "#cdd6e3", "#fff4dc"]}
+        stickColor="#e9e9ed"
+        roadColor="#080a0f"
+        lineColor="#b8bec8"
+        fov={115}
+        speed={8}
+        glow={8}
+        boostOn={false}
+      />
+    </div>
   );
 }

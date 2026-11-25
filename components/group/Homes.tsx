@@ -1,7 +1,7 @@
 "use client";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { businessLines, group } from "@/data/groupContent";
-import { LINE_ICONS, OgraBadge, PriceTicker } from "./shared";
+import { HeroWave, LINE_ICONS, OgraBadge, PriceTicker } from "./shared";
 
 const LINE_IMAGES = {
   fuel: "/source-media/6426128e1eeaca.jpg",
@@ -31,7 +31,7 @@ export function HomeB() {
           </div>
         </div>
         <figure className="hb-photo">
-          <img src="/source-media/bfdb45a26b7ddc.jpeg" alt="Fossil fuel station at night" />
+          <HeroWave />
           <PriceTicker className="gp-ticker hb-ticker" />
         </figure>
       </div>
@@ -55,6 +55,7 @@ export function HomeB() {
 export function HomeC() {
   return (
     <div className="gp-home gp-home-c">
+      <HeroWave />
       <div className="gp-wrap hc-top">
         <div>
           <p className="gp-eyebrow">FOSSIL GROUP · PAKISTAN</p>
@@ -103,6 +104,7 @@ export function HomeC() {
 export function HomeD() {
   return (
     <div className="gp-home gp-home-d">
+      <HeroWave />
       <ul className="hd-mosaic" aria-label="What we do">
         {businessLines.map((l) => {
           const Icon = LINE_ICONS[l.id];
