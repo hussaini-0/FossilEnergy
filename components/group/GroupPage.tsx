@@ -419,8 +419,7 @@ function PageDesigns({ design, section }: { design: Design; section: Section }) 
       <span>Design</span>
       {DESIGNS.map((d) => (
         <a key={d.id} href={sectionHref(d.id, section)} aria-current={d.id === design ? "page" : undefined} title={d.name}>
-          {d.id.toUpperCase()}
-          <small>{d.name}</small>
+          {d.name}
         </a>
       ))}
     </nav>

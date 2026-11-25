@@ -15,7 +15,7 @@ import PanelDeck, { type Panel } from "./PanelDeck";
 import GroupHeader from "./GroupHeader";
 import { sectionHref } from "@/data/designs";
 import { DESIGNS, LINE_ICONS, OgraBadge, designHref, type Design } from "./shared";
-import { HomeB, HomeC, HomeD } from "./Homes";
+import { HomeD } from "./Homes";
 import HomeE from "./ignition/HomeE";
 import IgnitionFX, { IgnitionFonts } from "./ignition/IgnitionFX";
 import { HeroWave, PriceTicker } from "./shared";
@@ -357,12 +357,10 @@ type Tone = "dark" | "light";
 /** Panel tones per design: home, companies, fuel finder, prices, stations, contact. */
 const TONES: Record<Design, Tone[]> = {
   a: ["dark", "light", "light", "dark", "light", "dark"],
-  b: ["light", "light", "light", "light", "light", "light"],
-  c: ["dark", "light", "dark", "light", "light", "dark"],
   d: ["dark", "dark", "light", "dark", "light", "dark"],
   e: ["dark", "dark", "dark", "dark", "dark", "dark"],
 };
-const HOMES = { a: HomeA, b: HomeB, c: HomeC, d: HomeD, e: HomeE };
+const HOMES = { a: HomeA, d: HomeD, e: HomeE };
 
 function DesignSwitcher({ design }: { design: Design }) {
   return (
@@ -370,8 +368,7 @@ function DesignSwitcher({ design }: { design: Design }) {
       <span>Design</span>
       {DESIGNS.map((d) => (
         <a key={d.id} href={designHref(d.id)} aria-current={d.id === design ? "page" : undefined} title={d.name}>
-          {d.id.toUpperCase()}
-          <small>{d.name}</small>
+          {d.name}
         </a>
       ))}
     </nav>

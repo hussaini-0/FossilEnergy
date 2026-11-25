@@ -1,6 +1,5 @@
 /* Fossil Group section pages (/companies, /fuel-finder, /prices, /stations, /contact and /group/<design>/<section>). */
 
-/* Base tokens at zero specificity so each design's overrides (.design-b …) still win. */
 :where(.gpg) {
   --gp-red: #e11b22;
   --gp-red-2: #ff4a50;
@@ -152,11 +151,6 @@
 .gpg-foot nav a:hover { color: var(--gp-ink); }
 
 /* Design accents on the pages */
-.gpg.design-b .gpg-intro h1, .gpg.design-b h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
-.gpg.design-c .gpg-top::after { background: linear-gradient(90deg, #d7141c 0%, #d7141cf0 40%, #d7141c99 75%, #d7141c40 100%); }
-.gpg.design-c .gpg-top .gp-eyebrow, .gpg.design-c .gpg-sub { color: #fff; }
-.gpg.design-c .gpg-top em { color: #fff; opacity: .8; }
-.gpg.design-c .gpg-intro h1 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; }
 .gpg.design-d .gpg-table tr.is-current td, .gpg.design-d .gpg-station-list article.is-selected { background: #1f9d551f; }
 
 @media (max-width: 1100px) {

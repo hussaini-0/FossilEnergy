@@ -5,14 +5,7 @@
 .gp-home-bg .gp-wave { z-index: 0; }
 .gp-home-bg::after { z-index: 1; background: linear-gradient(90deg, #05070ce0 0%, #05070ca6 32%, #05070c1f 72%), linear-gradient(0deg, #05070cf0 0%, transparent 38%, #05070c66 100%); }
 
-/* B · Daylight: the wave runs inside the framed picture */
-.hb-photo { background: #05070c; }
-.hb-photo .hb-ticker { z-index: 2; }
 
-/* C · Signal: red wash over the wave, opening up to the right */
-.gp-home-c > .gp-wave { z-index: 0; }
-.gp-home-c::before { z-index: 1; background: linear-gradient(90deg, #d7141c 0%, #d7141cf0 38%, #d7141c99 68%, #d7141c40 100%), linear-gradient(0deg, #d7141c 0%, transparent 40%); }
-.gp-home-c > .gp-wrap { z-index: 2; }
 
 /* D · Mosaic: wave fills the screen; the four businesses become a photo strip */
 .gp-home-d { display: flex; flex-direction: column; padding: calc(var(--gp-header) + 8px) 0 76px; }
@@ -30,11 +23,6 @@
 }
 @media (max-width: 760px) {
   /* B: show the wave as a strip under the headline */
-  .hb-photo { display: block; height: 110px; margin-top: 16px; border-radius: 6px; }
-  .hb-photo .hb-ticker { display: none; }
-  .gp-home-b .gp-actions { margin-bottom: 0; }
-  .hb-lines small { display: none; }
-  .hb-lines { margin-top: 12px; }
 
   /* D: card, then a 2×2 photo strip */
   .gp-home-d { padding: calc(var(--gp-header) + 8px) 0 72px; }
@@ -48,10 +36,5 @@
 .gp-home-d::after { background: radial-gradient(60% 55% at 50% 45%, #05070cd9 0%, #05070c99 55%, transparent 100%), linear-gradient(0deg, #05070cf2 0%, #05070c66 45%, #05070c33 100%); }
 @media (max-width: 760px) {
   .gp-home-bg::after { background: linear-gradient(180deg, #05070cd0 0%, #05070cb8 55%, #05070ce6 100%); }
-  .gp-home-c::before { background: linear-gradient(180deg, #d7141cf2 0%, #d7141ce0 60%, #d7141c 100%); }
-  .hb-photo { height: 72px; margin-top: 14px; }
-  .gp-home-b h1 { font-size: clamp(32px, 9.4vw, 40px); }
-  .gp-home-b .gp-lede { margin: 10px 0 14px; font-size: 13.5px; }
-  .hb-lines a, .hb-lines li:first-child a { padding: 8px 10px 9px; }
   .gp-home-d .hd-mosaic { height: 150px; }
 }
