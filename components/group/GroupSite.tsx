@@ -371,6 +371,13 @@ function DesignSwitcher({ design }: { design: Design }) {
           {d.name}
         </a>
       ))}
+      <i className="gp-designs-sep" aria-hidden="true" />
+      <a href="/3d" className="gp-designs-fe" title="Fossil Energy · Version 1">
+        <span className="gp-v-long">Version 1</span><span className="gp-v-short" aria-hidden="true">V1</span>
+      </a>
+      <a href="/2d" className="gp-designs-fe" title="Fossil Energy · Version 2">
+        <span className="gp-v-long">Version 2</span><span className="gp-v-short" aria-hidden="true">V2</span>
+      </a>
     </nav>
   );
 }

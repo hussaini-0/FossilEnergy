@@ -84,3 +84,16 @@
 .gp-more:hover { gap: 9px; }
 .gp-station-card .gp-more { margin-top: 0; }
 @media (max-width: 760px) { .gp-designs a { padding: 6px 9px; font-size: 11px; } }
+
+/* Fossil Energy Version 1 / 2 links inside the group switcher */
+.gp-designs-sep { width: 1px; height: 18px; margin: 0 4px; background: #ffffff33; }
+.gp-designs a.gp-designs-fe { color: #ff8a8e; }
+.gp-designs a.gp-designs-fe:hover { background: #e11b2226; color: #fff; }
+.gp-v-short { display: none; }
+@media (max-width: 760px) {
+  .gp-designs { left: 12px; right: auto; bottom: 16px; transform: none; max-width: calc(100% - 88px); }
+  .gp-v-long { display: none; }
+  .gp-v-short { display: inline; }
+  .gp-designs-sep { margin: 0 2px; }
+  .gp-pager { display: none; }
+}
